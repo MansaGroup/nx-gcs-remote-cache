@@ -1,6 +1,6 @@
 {
   "name": "@mansagroup/nx-gcs-remote-cache",
-  "version": "1.0.2",
+  "version": "1.0.4",
   "description": "A Google Cloud Storage distributed cache plugin for Nx",
   "main": "lib/index.js",
   "types": "lib/index.d.ts",
@@ -10,7 +10,8 @@
     "lint": "eslint src",
     "lint:fix": "eslint --fix src",
     "test": "jest --passWithNoTests",
-    "prepare": "husky install"
+    "prepare": "husky install",
+    "prepublishOnly": "npm run build"
   },
   "repository": {
     "type": "git",
