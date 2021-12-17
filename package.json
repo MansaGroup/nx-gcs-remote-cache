@@ -10,7 +10,8 @@
     "lint": "eslint src",
     "lint:fix": "eslint --fix src",
     "package": "ncc build -m",
-    "test": "jest --passWithNoTests"
+    "test": "jest --passWithNoTests",
+    "prepare": "husky install"
   },
   "repository": {
     "type": "git",
@@ -28,12 +29,6 @@
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/MansaGroup/nx-gcs-remote-cache/issues"
-  },
-  "husky": {
-    "hooks": {
-      "pre-commit": "lint-staged",
-      "commit-msg": "commitlint -E HUSKY_GIT_PARAMS"
-    }
   },
   "commitlint": {
     "extends": [
