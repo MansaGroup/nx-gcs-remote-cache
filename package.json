@@ -1,6 +1,6 @@
 {
   "name": "@mansagroup/nx-gcs-remote-cache",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "A Google Cloud Storage distributed cache plugin for Nx",
   "main": "lib/index.js",
   "types": "lib/index.d.ts",
@@ -9,7 +9,6 @@
     "build": "tsc",
     "lint": "eslint src",
     "lint:fix": "eslint --fix src",
-    "package": "ncc build -m",
     "test": "jest --passWithNoTests",
     "prepare": "husky install"
   },
@@ -54,7 +53,6 @@
     "@types/tmp": "0.2.3",
     "@typescript-eslint/eslint-plugin": "4.31.0",
     "@typescript-eslint/parser": "4.31.0",
-    "@vercel/ncc": "0.30.0",
     "eslint": "7.32.0",
     "eslint-config-airbnb-base": "14.2.1",
     "eslint-config-prettier": "8.3.0",
