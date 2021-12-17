@@ -1,0 +1,87 @@
+{
+  "name": "@mansagroup/nx-gcs-remote-cache",
+  "version": "1.0.0",
+  "description": "A Google Cloud Storage distributed cache plugin for Nx",
+  "main": "lib/index.js",
+  "types": "lib/index.d.ts",
+  "typings": "lib/index.d.ts",
+  "scripts": {
+    "build": "tsc",
+    "lint": "eslint src",
+    "lint:fix": "eslint --fix src",
+    "package": "ncc build -m",
+    "test": "jest --passWithNoTests"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/MansaGroup/nx-gcs-remote-cache.git"
+  },
+  "keywords": [
+    "nrwl",
+    "nx",
+    "distributed",
+    "cache",
+    "gcp",
+    "gcs"
+  ],
+  "author": "Jérémy Levilain <jeremy.levilain@getmansa.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/MansaGroup/nx-gcs-remote-cache/issues"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged",
+      "commit-msg": "commitlint -E HUSKY_GIT_PARAMS"
+    }
+  },
+  "commitlint": {
+    "extends": [
+      "@commitlint/config-conventional"
+    ],
+    "rules": {
+      "header-max-length": [
+        2,
+        "always",
+        85
+      ]
+    }
+  },
+  "lint-staged": {
+    "*.{js,jsx,ts,tsx}": "eslint --fix",
+    "*.{md,yml,html,css,scss,json}": "prettier --write"
+  },
+  "homepage": "https://github.com/MansaGroup/nx-gcs-remote-cache#readme",
+  "devDependencies": {
+    "@commitlint/cli": "13.1.0",
+    "@commitlint/config-conventional": "13.1.0",
+    "@types/tar": "^6.1.1",
+    "@types/tmp": "^0.2.3",
+    "@typescript-eslint/eslint-plugin": "4.31.0",
+    "@typescript-eslint/parser": "4.31.0",
+    "@vercel/ncc": "0.30.0",
+    "eslint": "7.32.0",
+    "eslint-config-airbnb-base": "14.2.1",
+    "eslint-config-prettier": "8.3.0",
+    "eslint-plugin-import": "2.24.2",
+    "eslint-plugin-import-helpers": "1.1.0",
+    "eslint-plugin-jest": "24.4.0",
+    "eslint-plugin-prettier": "4.0.0",
+    "eslint-plugin-sonarjs": "0.10.0",
+    "eslint-plugin-unused-imports": "1.1.4",
+    "husky": "7.0.2",
+    "jest": "27.1.0",
+    "jest-circus": "27.1.0",
+    "lint-staged": "11.1.2",
+    "prettier": "2.3.2",
+    "typescript": "4.5.4"
+  },
+  "dependencies": {
+    "@google-cloud/storage": "5.16.1",
+    "tar": "6.1.11",
+    "tmp-promise": "3.0.3"
+  },
+  "peerDependencies": {
+    "@nrwl/workspace": "^13.1.0"
+  }
+}

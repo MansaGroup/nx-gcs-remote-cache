@@ -1,0 +1,6 @@
+.github/
+src/
+.*
+CODE_OF_CONDUCT.md
+jest.config.js
+tsconfig.json
