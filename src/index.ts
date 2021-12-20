@@ -3,14 +3,16 @@ import {
   RemoteCache,
   tasksRunnerV2,
 } from '@nrwl/workspace/src/tasks-runner/tasks-runner-v2';
-import { cyan, inverse, bold } from 'chalk';
+import chalk from 'chalk';
 import { promises as fs } from 'fs';
 import { create as tarCreate, extract as tarExtract } from 'tar';
 import { withFile as withTemporaryFile } from 'tmp-promise';
 
-const LOG_PREFIX = `${cyan('>')} ${inverse(bold(cyan(' NX GCS ')))}`;
+const LOG_PREFIX = `${chalk.cyan('>')} ${chalk.inverse(
+  chalk.bold(chalk.cyan(' NX GCS ')),
+)}`;
 const log = (message: string): void =>
-  console.log(`\n${LOG_PREFIX} ${bold(message)}\n`);
+  console.log(`\n${LOG_PREFIX} ${chalk.bold(message)}\n`);
 
 class GCSRemoteCache implements RemoteCache {
   private readonly bucket: Bucket;

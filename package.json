@@ -1,6 +1,6 @@
 {
   "name": "@mansagroup/nx-gcs-remote-cache",
-  "version": "1.0.5",
+  "version": "1.0.6",
   "description": "A Google Cloud Storage distributed cache plugin for Nx",
   "main": "lib/index.js",
   "types": "lib/index.d.ts",
@@ -52,9 +52,9 @@
     "@commitlint/config-conventional": "15.0.0",
     "@types/tar": "6.1.1",
     "@types/tmp": "0.2.3",
-    "@typescript-eslint/eslint-plugin": "4.33.0",
-    "@typescript-eslint/parser": "4.33.0",
-    "eslint": "7.32.0",
+    "@typescript-eslint/eslint-plugin": "5.7.0",
+    "@typescript-eslint/parser": "5.7.0",
+    "eslint": "8.5.0",
     "eslint-config-airbnb-base": "15.0.0",
     "eslint-config-prettier": "8.3.0",
     "eslint-plugin-import": "2.25.3",
@@ -62,7 +62,7 @@
     "eslint-plugin-jest": "25.3.0",
     "eslint-plugin-prettier": "4.0.0",
     "eslint-plugin-sonarjs": "0.11.0",
-    "eslint-plugin-unused-imports": "1.1.5",
+    "eslint-plugin-unused-imports": "2.0.0",
     "husky": "7.0.4",
     "jest": "27.4.5",
     "jest-circus": "27.4.5",
@@ -73,11 +73,11 @@
   },
   "dependencies": {
     "@google-cloud/storage": "5.16.1",
+    "chalk": "4.1.2",
     "tar": "6.1.11",
     "tmp-promise": "3.0.3"
   },
   "peerDependencies": {
-    "@nrwl/workspace": "^13.1.0",
-    "chalk": "^4.1.0"
+    "@nrwl/workspace": "^13.1.0"
   }
 }
