@@ -3,9 +3,14 @@ import {
   RemoteCache,
   tasksRunnerV2,
 } from '@nrwl/workspace/src/tasks-runner/tasks-runner-v2';
+import { cyan, inverse, bold } from 'chalk';
 import { promises as fs } from 'fs';
 import { create as tarCreate, extract as tarExtract } from 'tar';
 import { withFile as withTemporaryFile } from 'tmp-promise';
+
+const LOG_PREFIX = `${cyan('>')} ${inverse(bold(cyan(' NX GCS ')))}`;
+const log = (message: string): void =>
+  console.log(`\n${LOG_PREFIX} ${bold(message)}\n`);
 
 class GCSRemoteCache implements RemoteCache {
   private readonly bucket: Bucket;
@@ -16,10 +21,9 @@ class GCSRemoteCache implements RemoteCache {
   }
 
   async retrieve(hash: string, cacheDirectory: string): Promise<boolean> {
-    const fileName = GCSRemoteCache.getFileName(hash);
+    const remoteFileName = GCSRemoteCache.getRemoteFileName(hash);
 
-    const file = this.bucket.file(fileName);
-
+    const file = this.bucket.file(remoteFileName);
     const [exists] = await file.exists();
     if (!exists) return true;
 
@@ -42,9 +46,9 @@ class GCSRemoteCache implements RemoteCache {
   }
 
   async store(hash: string, cacheDirectory: string): Promise<boolean> {
-    const fileName = GCSRemoteCache.getFileName(hash);
-    const file = this.bucket.file(fileName);
+    const remoteFileName = GCSRemoteCache.getRemoteFileName(hash);
 
+    const file = this.bucket.file(remoteFileName);
     const [exists] = await file.exists();
     if (exists) return true;
 
@@ -59,17 +63,20 @@ class GCSRemoteCache implements RemoteCache {
       );
 
       await this.bucket.upload(tmpFile.path, {
-        destination: fileName,
+        destination: remoteFileName,
       });
 
       return true;
     }).catch(() => {
-      console.log('Failed to store Nx cache. Ignoring.');
-      return true;
+      console.warn(
+        'Failed to store Nx cache in Google Cloud Storage bucket. Ignoring.',
+      );
+
+      return false;
     });
   }
 
-  private static getFileName(hash: string): string {
+  private static getRemoteFileName(hash: string): string {
     return `${hash}.tar.gz`;
   }
 }
@@ -80,11 +87,13 @@ const tasksRunner: typeof tasksRunnerV2 = (
   context: Parameters<typeof tasksRunnerV2>[2],
 ) => {
   if (process.env.NX_REMOTE_CACHE_BUCKET) {
+    log('Using Google Cloud Storage remote cache.');
+
     options.remoteCache = new GCSRemoteCache(
       process.env.NX_REMOTE_CACHE_BUCKET,
     );
   } else {
-    console.log(
+    console.warn(
       'Missing NX_REMOTE_CACHE_BUCKET environment variable, skipping Google Cloud cache.',
     );
   }
