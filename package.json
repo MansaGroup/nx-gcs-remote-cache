@@ -73,7 +73,7 @@
   },
   "dependencies": {
     "@google-cloud/storage": "5.16.1",
-    "chalk": "4.1.2",
+    "chalk": "5.0.0",
     "tar": "6.1.11",
     "tmp-promise": "3.0.3"
   },
