@@ -3,16 +3,11 @@ import {
   RemoteCache,
   tasksRunnerV2,
 } from '@nrwl/workspace/src/tasks-runner/tasks-runner-v2';
-import chalk from 'chalk';
 import { promises as fs } from 'fs';
 import { create as tarCreate, extract as tarExtract } from 'tar';
 import { withFile as withTemporaryFile } from 'tmp-promise';
 
-const LOG_PREFIX = `${chalk.cyan('>')} ${chalk.inverse(
-  chalk.bold(chalk.cyan(' NX GCS ')),
-)}`;
-const log = (message: string): void =>
-  console.log(`\n${LOG_PREFIX} ${chalk.bold(message)}\n`);
+import { logger } from './logger';
 
 class GCSRemoteCache implements RemoteCache {
   private readonly bucket: Bucket;
@@ -24,10 +19,18 @@ class GCSRemoteCache implements RemoteCache {
 
   async retrieve(hash: string, cacheDirectory: string): Promise<boolean> {
     const remoteFileName = GCSRemoteCache.getRemoteFileName(hash);
-
     const file = this.bucket.file(remoteFileName);
-    const [exists] = await file.exists();
-    if (!exists) return true;
+
+    try {
+      const [exists] = await file.exists();
+      if (!exists) return true;
+    } catch (err) {
+      logger.warn(
+        `Failed to check if the file already exist in the Google Cloud Storage bucket (error below). Ignoring.`,
+      );
+      console.error(err);
+      return false;
+    }
 
     return withTemporaryFile(async (tmpFile) => {
       await file.download({
@@ -44,15 +47,29 @@ class GCSRemoteCache implements RemoteCache {
       });
 
       return true;
+    }).catch((err) => {
+      logger.warn(
+        'Failed to retrieve Nx cache from Google Cloud Storage bucket (error below). Ignoring.',
+      );
+      console.error(err);
+      return false;
     });
   }
 
   async store(hash: string, cacheDirectory: string): Promise<boolean> {
     const remoteFileName = GCSRemoteCache.getRemoteFileName(hash);
-
     const file = this.bucket.file(remoteFileName);
-    const [exists] = await file.exists();
-    if (exists) return true;
+
+    try {
+      const [exists] = await file.exists();
+      if (exists) return true;
+    } catch (err) {
+      logger.warn(
+        `Failed to check if the file already exist in the Google Cloud Storage bucket (error below). Ignoring.`,
+      );
+      console.error(err);
+      return false;
+    }
 
     return withTemporaryFile(async (tmpFile) => {
       await tarCreate(
@@ -69,11 +86,11 @@ class GCSRemoteCache implements RemoteCache {
       });
 
       return true;
-    }).catch(() => {
-      console.warn(
-        'Failed to store Nx cache in Google Cloud Storage bucket. Ignoring.',
+    }).catch((err) => {
+      logger.warn(
+        'Failed to store Nx cache in Google Cloud Storage bucket (error below). Ignoring.',
       );
-
+      console.error(err);
       return false;
     });
   }
@@ -89,13 +106,13 @@ const tasksRunner: typeof tasksRunnerV2 = (
   context: Parameters<typeof tasksRunnerV2>[2],
 ) => {
   if (process.env.NX_REMOTE_CACHE_BUCKET) {
-    log('Using Google Cloud Storage remote cache.');
+    logger.log('Using Google Cloud Storage remote cache.');
 
     options.remoteCache = new GCSRemoteCache(
       process.env.NX_REMOTE_CACHE_BUCKET,
     );
   } else {
-    console.warn(
+    logger.warn(
       'Missing NX_REMOTE_CACHE_BUCKET environment variable, skipping Google Cloud cache.',
     );
   }
