@@ -78,6 +78,6 @@
     "tmp-promise": "3.0.3"
   },
   "peerDependencies": {
-    "@nrwl/workspace": "^13.1.0"
+    "@nrwl/workspace": "^13.1.0 || ^14.0.0"
   }
 }
