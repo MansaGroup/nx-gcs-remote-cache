@@ -1,6 +1,6 @@
 {
   "name": "@mansagroup/nx-gcs-remote-cache",
-  "version": "1.0.8",
+  "version": "1.1.0",
   "description": "A Google Cloud Storage distributed cache plugin for Nx",
   "main": "lib/index.js",
   "types": "lib/index.d.ts",
