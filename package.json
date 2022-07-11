@@ -11,7 +11,8 @@
     "lint:fix": "eslint --fix src",
     "test": "jest --passWithNoTests",
     "prepare": "husky install",
-    "prepublishOnly": "npm run build"
+    "prepublishOnly": "npm run build",
+    "release": "np --message=\"chore: v%s\""
   },
   "repository": {
     "type": "git",
@@ -67,6 +68,7 @@
     "jest": "28.1.2",
     "jest-circus": "28.1.2",
     "lint-staged": "13.0.3",
+    "np": "^7.6.2",
     "prettier": "2.7.1",
     "ts-jest": "28.0.5",
     "typescript": "4.7.4"
