@@ -54,6 +54,12 @@ of your Google Cloud Storage bucket to use as cache container.
 > `gcloud auth application-default login` if you work locally. The procedure
 > for an automated environment such as a CI/CD can differ.
 
+### Debug
+
+To avoid being flooded by stack trace when not logged in to GCP, errors are hidden by default.
+
+To enable it set `export NX_REMOTE_CACHE_DEBUG=debug` environment variable
+
 ## License
 
 This project is [MIT licensed](LICENSE.txt).

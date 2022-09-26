@@ -11,10 +11,12 @@ import { logger } from './logger';
 
 class GCSRemoteCache implements RemoteCache {
   private readonly bucket: Bucket;
+  private readonly debug: Boolean;
 
-  constructor(bucketName: string) {
+  constructor(bucketName: string, debug: boolean = false) {
     const storage = new Storage();
     this.bucket = storage.bucket(bucketName);
+    this.debug = debug;
   }
 
   async retrieve(hash: string, cacheDirectory: string): Promise<boolean> {
@@ -26,9 +28,11 @@ class GCSRemoteCache implements RemoteCache {
       if (!exists) return true;
     } catch (err) {
       logger.warn(
-        `Failed to check if the file already exist in the Google Cloud Storage bucket (error below). Ignoring.`,
+        `Failed to check if the file already exist in the Google Cloud Storage bucket. Ignoring.`,
       );
-      console.error(err);
+      if (this.debug) {
+        console.error(err);
+      }
       return false;
     }
 
@@ -49,9 +53,11 @@ class GCSRemoteCache implements RemoteCache {
       return true;
     }).catch((err) => {
       logger.warn(
-        'Failed to retrieve Nx cache from Google Cloud Storage bucket (error below). Ignoring.',
+        'Failed to retrieve Nx cache from Google Cloud Storage bucket. Ignoring.',
       );
-      console.error(err);
+      if (this.debug) {
+        console.error(err);
+      }
       return false;
     });
   }
@@ -65,9 +71,11 @@ class GCSRemoteCache implements RemoteCache {
       if (exists) return true;
     } catch (err) {
       logger.warn(
-        `Failed to check if the file already exist in the Google Cloud Storage bucket (error below). Ignoring.`,
+        `Failed to check if the file already exist in the Google Cloud Storage bucket. Ignoring.`,
       );
-      console.error(err);
+      if (this.debug) {
+        console.error(err);
+      }
       return false;
     }
 
@@ -88,9 +96,11 @@ class GCSRemoteCache implements RemoteCache {
       return true;
     }).catch((err) => {
       logger.warn(
-        'Failed to store Nx cache in Google Cloud Storage bucket (error below). Ignoring.',
+        'Failed to store Nx cache in Google Cloud Storage bucket. Ignoring.',
       );
-      console.error(err);
+      if (this.debug) {
+        console.error(err);
+      }
       return false;
     });
   }
@@ -110,6 +120,7 @@ const tasksRunner: typeof tasksRunnerV2 = (
 
     options.remoteCache = new GCSRemoteCache(
       process.env.NX_REMOTE_CACHE_BUCKET,
+      process.env.NX_REMOTE_CACHE_DEBUG === 'debug' ? true : false,
     );
   } else {
     logger.warn(
