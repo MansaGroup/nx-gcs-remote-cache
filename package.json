@@ -76,7 +76,7 @@
   "dependencies": {
     "@google-cloud/storage": "6.6.0",
     "chalk": "4.1.2",
-    "tar": "6.1.11",
+    "tar": "6.1.12",
     "tmp-promise": "3.0.3"
   },
   "peerDependencies": {
