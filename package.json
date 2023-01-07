@@ -49,8 +49,8 @@
   },
   "homepage": "https://github.com/MansaGroup/nx-gcs-remote-cache#readme",
   "devDependencies": {
-    "@commitlint/cli": "17.3.0",
-    "@commitlint/config-conventional": "17.3.0",
+    "@commitlint/cli": "17.4.0",
+    "@commitlint/config-conventional": "17.4.0",
     "@types/tar": "6.1.3",
     "@types/tmp": "0.2.3",
     "@typescript-eslint/eslint-plugin": "5.48.0",
