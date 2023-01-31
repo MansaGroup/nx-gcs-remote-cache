@@ -7,7 +7,7 @@
 This package implements a Google Cloud Storage-backed distributed cache for
 [Nrwl Nx](https://nx.dev/) monorepos.
 
-The distributed cache allows one or more developpers, including CI/CD
+The distributed cache allows one or more developers, including CI/CD
 pipelines to share the same task cache, allowing one to not run a task
 already ran by someone else when the code did not changed.
 
