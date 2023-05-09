@@ -1,8 +1,8 @@
 import { Bucket, Storage } from '@google-cloud/storage';
 import {
   RemoteCache,
-  tasksRunnerV2,
-} from '@nrwl/workspace/src/tasks-runner/tasks-runner-v2';
+  defaultTasksRunner,
+} from '@nx/workspace/src/tasks-runner/default-tasks-runner';
 import { promises as fs } from 'fs';
 import { create as tarCreate, extract as tarExtract } from 'tar';
 import { withFile as withTemporaryFile } from 'tmp-promise';
@@ -100,10 +100,10 @@ class GCSRemoteCache implements RemoteCache {
   }
 }
 
-const tasksRunner: typeof tasksRunnerV2 = (
-  tasks: Parameters<typeof tasksRunnerV2>[0],
-  options: Parameters<typeof tasksRunnerV2>[1],
-  context: Parameters<typeof tasksRunnerV2>[2],
+const tasksRunner: typeof defaultTasksRunner = (
+  tasks: Parameters<typeof defaultTasksRunner>[0],
+  options: Parameters<typeof defaultTasksRunner>[1],
+  context: Parameters<typeof defaultTasksRunner>[2],
 ) => {
   if (process.env.NX_REMOTE_CACHE_BUCKET) {
     logger.log('Using Google Cloud Storage remote cache.');
@@ -117,7 +117,7 @@ const tasksRunner: typeof tasksRunnerV2 = (
     );
   }
 
-  return tasksRunnerV2(tasks, options, context);
+  return defaultTasksRunner(tasks, options, context); // eslint-disable-line @typescript-eslint/no-unsafe-return
 };
 
 export default tasksRunner;
